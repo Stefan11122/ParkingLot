@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.logging.Logger;
 
 @Stateless
-
 public class UsersBean {
     private static final Logger LOG = Logger.getLogger(UsersBean.class.getName());
 
