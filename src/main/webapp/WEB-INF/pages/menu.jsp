@@ -1,33 +1,84 @@
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<c:set var="currentPage"
+       value="${pageContext.request.requestURI.substring(pageContext.request.requestURI.lastIndexOf('/'))}" />
+
 <header data-bs-theme="dark">
+
     <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-        <div class="container-fluid"><a class="navbar-brand" href="${pageContext.request.contextPath}">Parking Lot</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
-                    aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation"><span
-                    class="navbar-toggler-icon"></span></button>
+        <div class="container-fluid">
+
+            <a class="navbar-brand" href="${pageContext.request.contextPath}">Parking Lot</a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarCollapse"
+                    aria-controls="navbarCollapse"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
             <div class="collapse navbar-collapse" id="navbarCollapse">
+
                 <ul class="navbar-nav me-auto mb-2 mb-md-0">
-                    <li class="nav-item"><a class="nav-link active"
-                    ${pageContext.request.requestURI.substring(pageContext.request.requestURI.lastIndexOf("/"))
-                            eq '/about.jsp' ? ' active' : ''}
-                                            aria-current="page" href="${pageContext.request.contextPath}/about.jsp">About</a>
-                    </li>
-                    <li class="nav-item"><a class="nav-link active"
-                    ${pageContext.request.requestURI.substring(pageContext.request.requestURI.lastIndexOf("/"))
-                            eq '/about.jsp' ? ' active' : ''}
-                                            aria-current="page" href="${pageContext.request.contextPath}/Cars">Cars</a>
-                    </li>
-                    <!-- Add inside your existing menu list -->
+
+                    <!-- ABOUT -->
                     <li class="nav-item">
-                        <a class="nav-link" href="${pageContext.request.contextPath}/Users">Users</a>
+                        <a class="nav-link ${currentPage eq '/about.jsp' ? 'active' : ''}"
+                           href="${pageContext.request.contextPath}/about.jsp">
+                            About
+                        </a>
                     </li>
 
-                    <li class="nav-item"><a class="nav-link" href="#">Link</a></li>
-                    <li class="nav-item"><a class="nav-link disabled" aria-disabled="true">Disabled</a></li>
+                    <!-- CARS -->
+                    <li class="nav-item">
+                        <c:if test="${pageContext.request.isUserInRole('READ_CARS')}">
+                        <a class="nav-link ${currentPage eq '/Cars' ? 'active' : ''}"
+                           href="${pageContext.request.contextPath}/Cars">
+                            Cars
+                        </a>
+                        </c:if>
+                    </li>
+
+                    <!-- USERS -->
+                    <li class="nav-item">
+                        <c:if test="${pageContext.request.isUserInRole('READ_USERS')}">
+                        <a class="nav-link ${currentPage eq '/Users' ? 'active' : ''}"
+                           href="${pageContext.request.contextPath}/Users">
+                            Users
+                        </a>
+                        </c:if>
+                    </li>
+
+                    <!-- LINK -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Link</a>
+                    </li>
+
+                    <!-- DISABLED -->
+                    <li class="nav-item">
+                        <a class="nav-link disabled" aria-disabled="true">Disabled</a>
+                    </li>
                 </ul>
+
+                <!-- LOGIN / LOGOUT -->
                 <ul class="navbar-nav">
-                    <li class="nav-item"></li>
-                    <a class="nav-link" href="${pageContext.request.contextPath}/Login">Login</a>
+                    <li class="nav-item">
+
+                        <c:choose>
+                            <c:when test="${pageContext.request.remoteUser == null}">
+                                <a class="nav-link" href="${pageContext.request.contextPath}/Login">Login</a>
+                            </c:when>
+
+                            <c:otherwise>
+                                <a class="nav-link" href="${pageContext.request.contextPath}/Logout">Logout</a>
+                            </c:otherwise>
+                        </c:choose>
+
+
+                    </li>
                 </ul>
+
             </div>
         </div>
     </nav>

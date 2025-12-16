@@ -11,7 +11,7 @@ import org.example.parkinglot.ejb.UsersBean;
 
 import java.io.IOException;
 import java.util.List;
-
+@ServletSecurity(value = @HttpConstraint(rolesAllowed = {"WRITE_CARS"}))
 @WebServlet(name = "EditCar", value = "/EditCar")
 public class EditCar extends HttpServlet {
 
