@@ -8,6 +8,7 @@ import org.example.parkinglot.entities.User;
 import org.example.parkinglot.entities.UserGroup;
 import org.parkinglot.parkinglot.common.UserDto;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.logging.Logger;
@@ -58,4 +59,9 @@ PasswordBean passwordBean;
             entityManager.persist(userGroup);
         }
     }
+    public Collection<String>findUsernamesByUserIds(Collection<Long>userIds) {
+        List<String> usernames =
+                entityManager.createQuery("SELECT u.username FROM User u WHERE u.id IN :userIds",String.class).setParameter("userIds", userIds).getResultList();
+    return usernames;
+     }
 }
